@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ajax Notes</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'notes_app/js/index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'notes_app/css/index.css' %}">
+  </head>
+  <body>
+    <div id='error'>
+    {% if messages  %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+    </div>
+    <form class="" action="{% url 'insert' %}" method="post">
+      {% csrf_token %}
+      <p><input type="text" name="title" value="" placeholder="Insert note title here..."></p>
+      <p><textarea name="description" rows="8" cols="50"></textarea></p>
+      <p><input type="submit" name="" value="Add Note"></p>
+    </form>
+    <h3>Notes</h3>
+      {% if notes %}
+        <div class="wall">
+          {% for note in notes %}
+            <div class="note">
+            <h4>{{ note.title }}</h4>
+            <p>{{ note.description }}</p>
+            <a href="/delete/{{ note.id }}">delete</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        No notes!
+      {% endif %}
+  </body>
+</html>
